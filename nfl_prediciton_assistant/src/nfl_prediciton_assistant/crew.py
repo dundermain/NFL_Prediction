@@ -30,7 +30,7 @@ class NflPredicitonAssistant():
 			llm = llm,
 			tools=[EmbeddingTool(config_path=self.base_config), WebSearch(config_path=self.base_config)],
 		)
-		
+		print("Embedding Done")
 		return data_embedder
 	
 	@agent
@@ -42,7 +42,7 @@ class NflPredicitonAssistant():
 			llm = llm,
 			tools = [RetrievalTool(config_path=self.base_config)],
 		)
-
+		print("Retrieval Done")
 		return data_retrieval
 	
 	@agent
@@ -54,7 +54,7 @@ class NflPredicitonAssistant():
 			llm = llm,
 			tools = [RetrievalTool(config_path=self.base_config)],
 		)
-
+		print("Trend Analysis Done")
 		return trend_analysis
 	
 	@agent
@@ -66,7 +66,7 @@ class NflPredicitonAssistant():
 			llm = llm,
 			tools = [RetrievalTool(config_path=self.base_config)],
 		)
-
+		print("Team change Analysis Done")
 		return team_changes
 	
 	@agent
@@ -78,7 +78,7 @@ class NflPredicitonAssistant():
 			llm = llm,
 			tools = [RetrievalTool(config_path=self.base_config)],
 		)
-
+		print("Injury Analysis Done")
 		return injury_analysis
 	
 	@agent
@@ -90,7 +90,7 @@ class NflPredicitonAssistant():
 			llm = llm,
 			tools = [RetrievalTool(config_path=self.base_config)],
 		)
-
+		print("Team's head to head Analysis Done")
 		return head_to_head_analysis
 
 	@agent
@@ -102,7 +102,7 @@ class NflPredicitonAssistant():
 			llm = llm,
 			tools = [RetrievalTool(config_path=self.base_config)],
 		)
-
+		print("Current Season Performance Analysis Done")
 		return current_season_performance	
 
 	@agent
@@ -114,7 +114,7 @@ class NflPredicitonAssistant():
 			llm = llm,
 			tools = [RetrievalTool(config_path=self.base_config)],
 		)
-
+		print("Coaching Stategy Analysis Done")
 		return coaching_strategy_analysis
 	
 	@agent
@@ -126,7 +126,7 @@ class NflPredicitonAssistant():
 			llm = llm,
 			tools = [RetrievalTool(config_path=self.base_config)],
 		)
-
+		print("Impact of environment Analysis Done")
 		return environmental_impact_analysis
 	
 	@agent
@@ -137,7 +137,7 @@ class NflPredicitonAssistant():
 			verbose = True,
 			llm = llm,
 		)
-
+		print("Preformance Summary Done")
 		return performance_summary
 
 	@agent
@@ -148,7 +148,7 @@ class NflPredicitonAssistant():
 			verbose=True,
 			llm = llm,
 		)
-
+		print("Consensus Summary Done")
 		return consensus_agent
 	
 
@@ -240,7 +240,7 @@ class NflPredicitonAssistant():
 
 		performance_summary_task = Task(
 			config = self.tasks_config['performance_summary_task'],
-			context = [self.environmental_impact_task, self.coaching_strategy_task]
+			context = [self.environmental_impact_task, self.coaching_strategy_task]	
 		)
 		return performance_summary_task	
 	@task

@@ -64,12 +64,14 @@ class RetrievalTool(BaseTool):
                 return "Error: 'base_db_config' must be provided."
 
             db_path = base_db_config.get("chroma_db_path")
+
  
             embeddings = OllamaEmbeddings(base_url="http://localhost:11434", model="mxbai-embed-large")
 
             vector_db = Chroma(persist_directory = db_path, embedding_function= embeddings)
 
             user_query = kwargs.get("user_query", self.user_query)
+            # user_query = "injuries"
 
             relevant_info = vector_db.similarity_search_by_vector(embedding=embeddings.embed_query(user_query))
 
