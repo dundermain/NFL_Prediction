@@ -19,7 +19,7 @@ def run():
 
     while True:
         # user_query = input("\nHow can I help you today?: ")
-        user_query = "injuries"
+        user_query = "nfl jaguars vs titans"
 
         user_input = {'Question': user_query}
 

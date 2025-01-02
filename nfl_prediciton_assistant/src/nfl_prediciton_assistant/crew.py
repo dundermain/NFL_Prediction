@@ -248,7 +248,6 @@ class NflPredicitonAssistant():
 		consensus_summary = Task(
 			config=self.tasks_config['consensus_summary_task'],
 		)
-		print('I am here')
 
 		return consensus_summary
 	
