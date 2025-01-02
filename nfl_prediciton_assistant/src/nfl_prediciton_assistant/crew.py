@@ -20,6 +20,7 @@ class NflPredicitonAssistant():
 	base_config = '/home/sachin/Music/NeevHQ/NFL_Prediction/nfl_prediciton_assistant/src/nfl_prediciton_assistant/config/base_config.yaml'
 
 
+	#sequence of agents
 	@agent
 	def data_embedding_agent(self) -> Agent:
 
@@ -39,11 +40,105 @@ class NflPredicitonAssistant():
 			config = self.agents_config['data_retrieval_agent'],
 			verbose = True,
 			llm = llm,
-			tools = [RetrievalTool(config_path=self.base_config, result_as_answer=True)],
+			tools = [RetrievalTool(config_path=self.base_config)],
 		)
 
 		return data_retrieval
+	
+	@agent
+	def trend_analysis_agent(self) -> Agent:
 
+		trend_analysis = Agent(
+			config = self.agents_config['trend_analysis_agent'],
+			verbose = True,
+			llm = llm,
+			tools = [RetrievalTool(config_path=self.base_config)],
+		)
+
+		return trend_analysis
+	
+	@agent
+	def team_changes_agent(self) -> Agent:
+
+		team_changes = Agent(
+			config = self.agents_config['team_changes_agent'],
+			verbose = True,
+			llm = llm,
+			tools = [RetrievalTool(config_path=self.base_config)],
+		)
+
+		return team_changes
+	
+	@agent
+	def injury_analysis_agent(self) -> Agent:
+
+		injury_analysis = Agent(
+			config = self.agents_config['injury_analysis_agent'],
+			verbose = True,
+			llm = llm,
+			tools = [RetrievalTool(config_path=self.base_config)],
+		)
+
+		return injury_analysis
+	
+	@agent
+	def head_to_head_analysis_agent(self) -> Agent:
+
+		head_to_head_analysis = Agent(
+			config = self.agents_config['head_to_head_analysis_agent'],
+			verbose = True,
+			llm = llm,
+			tools = [RetrievalTool(config_path=self.base_config)],
+		)
+
+		return head_to_head_analysis
+
+	@agent
+	def current_season_performance_agent(self) -> Agent:
+
+		current_season_performance = Agent(
+			config = self.agents_config['current_season_performance_agent'],
+			verbose = True,
+			llm = llm,
+			tools = [RetrievalTool(config_path=self.base_config)],
+		)
+
+		return current_season_performance	
+
+	@agent
+	def coaching_strategy_analysis_agent(self) -> Agent:
+
+		coaching_strategy_analysis = Agent(
+			config = self.agents_config['coaching_strategy_analysis_agent'],
+			verbose = True,
+			llm = llm,
+			tools = [RetrievalTool(config_path=self.base_config)],
+		)
+
+		return coaching_strategy_analysis
+	
+	@agent
+	def environmental_impact_analysis_agent(self) -> Agent:
+
+		environmental_impact_analysis = Agent(
+			config = self.agents_config['environmental_impact_analysis_agent'],
+			verbose = True,
+			llm = llm,
+			tools = [RetrievalTool(config_path=self.base_config)],
+		)
+
+		return environmental_impact_analysis
+	
+	@agent
+	def performance_summary_agent(self) -> Agent:
+
+		performance_summary = Agent(
+			config = self.agents_config['performance_summary_agent'],
+			verbose = True,
+			llm = llm,
+		)
+
+		return performance_summary
 
 	@agent
 	def consensus_agent(self) -> Agent:
@@ -55,49 +150,125 @@ class NflPredicitonAssistant():
 		)
 
 		return consensus_agent
-
-
 	
-	@task
-	def data_embedding_task(self) -> Task:
 
-		return Task(
-			config=self.tasks_config['data_embedding_task'],
-			# human_input = True,
-
+	manager = Agent(
+		role="Project Manager",
+		goal="Efficiently manage the crew and ensure high-quality task completion",
+		backstory="You're an experienced project manager, skilled in overseeing complex projects and guiding teams to success. Your role is to coordinate the efforts of the crew members, ensuring that each task is completed on time and to the highest standard.",
+		allow_delegation=True,
 		)
 	
+
+	#sequence of tasks
 	@task
-	def data_retireval_task(self) -> Task:
+	def data_embedding_task(self) -> Task:
+		
+		embedding_task = Task(
+			config=self.tasks_config['data_embedding_task'],
+		)
+		return embedding_task
+	
+	@task
+	def data_retrieval_task(self) -> Task:
 
 		retrieval_task = Task(
 			config = self.tasks_config['data_retrieval_task'],
-			# human_input = True
 		)
 		return retrieval_task
 
 	@task
-	def consensus_prediction_task(self) -> Task:
-		return Task(
-			config=self.tasks_config['consensus_prediction_task'],
-			output_file='report.md'
+	def trend_analysis_task(self) -> Task:
+
+		trend_analysis_task = Task(
+			config = self.tasks_config['trend_analysis_task'],
 		)
+		return trend_analysis_task
+
+	@task
+	def team_changes_task(self) -> Task:
+
+		team_changes_task = Task(
+			config = self.tasks_config['team_changes_task'],
+		)
+		return team_changes_task
+
+
+	@task
+	def injury_analysis_task(self) -> Task:
+
+		injury_analysis_task = Task(
+			config = self.tasks_config['injury_analysis_task'],
+		)
+		return injury_analysis_task
+	
+
+	@task
+	def head_to_head_analysis_task(self) -> Task:
+
+		head_to_head_analysis_task = Task(
+			config = self.tasks_config['head_to_head_analysis_task'],
+		)
+		return head_to_head_analysis_task
+	
+	@task
+	def current_season_performance_task(self) -> Task:
+
+		current_season_performance_task = Task(
+			config = self.tasks_config['current_season_performance_task'],
+		)
+		return current_season_performance_task
+	
+	@task
+	def coaching_strategy_task(self) -> Task:
+
+		coaching_strategy_task = Task(
+			config = self.tasks_config['coaching_strategy_task'],
+		)
+		return coaching_strategy_task
+	
+	@task
+	def environmental_impact_task(self) -> Task:
+
+		environmental_impact_task = Task(
+			config = self.tasks_config['environmental_impact_task'],
+		)
+		return environmental_impact_task
+
+	@task
+	def performance_summary_task(self) -> Task:
+
+		performance_summary_task = Task(
+			config = self.tasks_config['performance_summary_task'],
+			context = [self.environmental_impact_task, self.coaching_strategy_task]
+		)
+		return performance_summary_task	
+	@task
+	def consensus_summary_task(self) -> Task:
+
+		consensus_summary = Task(
+			config=self.tasks_config['consensus_summary_task'],
+			context = [self.performance_summary_task]
+		)
+
+		return consensus_summary
 	
 
 	@crew
 	def crew(self) -> Crew:
 		"""Creates the NflPredicitonAssistant crew"""
 
-		return Crew(
+		crew_workflow = Crew(
 			agents=self.agents, # Automatically created by the @agent decorator
 			tasks=self.tasks, # Automatically created by the @task decorator
-			process=Process.sequential,
+			process=Process.hierarchical,
 			verbose=True,
 			memory=True,
+			manager_agent=self.manager,
 			embedder={
 				"provider": "ollama",
 				"config": {"model": "mxbai-embed-large"}
     				},
+			)
 
-			# process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
-		)
+		return crew_workflow

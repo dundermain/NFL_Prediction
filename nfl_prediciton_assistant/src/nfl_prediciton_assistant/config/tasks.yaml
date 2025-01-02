@@ -4,6 +4,7 @@ data_embedding_task:
   expected_output: >
     Database containing all the embedded data from the sources using the specified tools
   agent: data_embedding_agent
+  async_execution: True
 
 data_retrieval_task:
   description: >
@@ -68,9 +69,11 @@ performance_summary_task:
     Comprehensive and integrated summary of all key factors influencing the teams' performance, covering trends, injuries, strategies, environmental factors, and more.
   agent: performance_summary_agent
 
-consensus_prediction_task:
+
+consensus_summary_task:
   description: >
     Derive insights from output of performance_summary_agent
   expected_output: >
     A detailed summary of the key factors influencing the teams' performance based on the output of performance_summary_agent
   agent: consensus_agent
+  output_file: report.md
