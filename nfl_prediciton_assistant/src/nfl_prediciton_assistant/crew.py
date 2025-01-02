@@ -65,6 +65,12 @@ class NflPredicitonAssistant():
 			process=Process.sequential,
 			verbose=True,
 			memory=True,
+			embedder={
+        	"provider": "ollama",
+        	"config": {
+            "model": "mxbai-embed-large"
+        			}
+    				},
 			# long_term_memory=EnhanceLongTermMemory(
 			# 	storage=LTMSQLiteStorage(
 			# 		db_path="/my_data_dir/my_crew1/long_term_memory_storage.db"

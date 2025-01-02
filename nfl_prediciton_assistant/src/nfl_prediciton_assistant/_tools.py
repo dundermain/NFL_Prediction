@@ -56,3 +56,4 @@ def csv_to_embeddings(csv_paths):
     )
 
     return csv_search_tool
+
