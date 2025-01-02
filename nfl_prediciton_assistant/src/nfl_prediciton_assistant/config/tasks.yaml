@@ -5,6 +5,13 @@ data_embedding_task:
     Database containing all the embedded data from the CSV an JSON file present in config
   agent: data_embedding_agent
 
+data_retrieval_task:
+  description: >
+    Retrieve the documents from the database
+  expected_output: >
+    List of all the relevant documents related to user prompt from ChromaDB 
+  agent: data_retrieval_agent
+
 # statistical_analysis_task:
 #   description: >
 #     Compute basic statistical metrics from processed data.
@@ -56,7 +63,7 @@ data_embedding_task:
 
 consensus_prediction_task:
   description: >
-    Derive insights from database prepared by data_embedding_agent based on the queries
+    Derive insights from output of data_retrieval_agent
   expected_output: >
-    A detailed summary of the names mentioned in the user queries
+    A detailed summary of the document retrieved in the output of data_retrieval_agent
   agent: consensus_agent

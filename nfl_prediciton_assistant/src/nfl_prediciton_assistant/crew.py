@@ -2,6 +2,7 @@ from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from ._tools import json_to_embeddings, csv_to_embeddings
 from .custom_embedder import EmbeddingTool
+from .custom_retrieval import RetrievalTool
 
 
 
@@ -23,12 +24,27 @@ class NflPredicitonAssistant():
 	def data_embedding_agent(self) -> Agent:
 
 		data_embedder = Agent(			
-			config=self.agents_config['data_embedding_agent'],
-			verbose=True,
+			config = self.agents_config['data_embedding_agent'],
+			verbose = False,
 			llm = llm,
-			tools=[EmbeddingTool(config_path=self.base_config)],)
+			tools=[EmbeddingTool(config_path=self.base_config)],
+		)
 		
 		return data_embedder
+	
+	@agent
+	def data_retrieval_agent(self) -> Agent:
+
+		data_retrieval = Agent(
+			config = self.agents_config['data_retrieval_agent'],
+			verbose = True,
+			llm = llm,
+			# prompt_template="""<|start_header_id|>user<|end_header_id|>{{ .Prompt }}<|eot_id|>""",
+			tools = [RetrievalTool(config_path=self.base_config )],
+		)
+
+		return data_retrieval
+
 
 	@agent
 	def consensus_agent(self) -> Agent:
@@ -39,14 +55,25 @@ class NflPredicitonAssistant():
 			llm = llm,
 		)
 
+
 	
 	@task
 	def data_embedding_task(self) -> Task:
 
 		return Task(
 			config=self.tasks_config['data_embedding_task'],
+			# human_input = True,
 
 		)
+	
+	@task
+	def data_retireval_task(self) -> Task:
+
+		retrieval_task = Task(
+			config = self.tasks_config['data_retrieval_task'],
+			# human_input = True
+		)
+		return retrieval_task
 
 	@task
 	def consensus_prediction_task(self) -> Task:
@@ -54,6 +81,7 @@ class NflPredicitonAssistant():
 			config=self.tasks_config['consensus_prediction_task'],
 			output_file='report.md'
 		)
+	
 
 	@crew
 	def crew(self) -> Crew:
