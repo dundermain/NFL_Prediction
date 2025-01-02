@@ -1,6 +1,7 @@
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from ._tools import json_to_embeddings, csv_to_embeddings
+from .custom_embedder import data_embedding_tool
 
 # If you want to run a snippet of code before or after the crew starts, 
 # you can use the @before_kickoff and @after_kickoff decorators
@@ -17,6 +18,8 @@ class NflPredicitonAssistant():
 	# Tasks: https://docs.crewai.com/concepts/tasks#yaml-configuration-recommended
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
+	knowledge_config = 'config/knowledge.yaml'
+	db_config = 'config/db.yaml'
 
 	# If you would like to add tools to your agents, you can learn more about it here:
 	# https://docs.crewai.com/concepts/agents#agent-tools
@@ -26,7 +29,7 @@ class NflPredicitonAssistant():
 			config=self.agents_config['data_preparation_agent'],
 			verbose=True,
 			llm = llm,
-			tools=[csv_to_embeddings('/home/sachin/Music/NFL/Kaggle_Data/team_stats_2003_2023.csv')],
+			tools=[data_embedding_tool()],
 		)
 
 	@agent
@@ -44,6 +47,7 @@ class NflPredicitonAssistant():
 	def data_preparation_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['data_preparation_task'],
+
 		)
 
 	@task

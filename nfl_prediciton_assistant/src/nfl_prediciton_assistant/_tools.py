@@ -1,5 +1,7 @@
 from crewai_tools import JSONSearchTool, CSVSearchTool
 
+from crewai_tools import DirectoryReadTool
+
 
 def json_to_embeddings(json_paths):
 
