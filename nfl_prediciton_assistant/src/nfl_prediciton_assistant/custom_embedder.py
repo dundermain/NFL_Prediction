@@ -1,5 +1,4 @@
 from crewai.tools import BaseTool
-from typing import Dict
 import pandas as pd
 import json
 import yaml
@@ -7,112 +6,120 @@ from langchain.embeddings import OllamaEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.docstore.document import Document
 import os
-
-from typing import Optional
-
-
+from typing import Optional, Type, Any
+from pydantic import BaseModel, Field
 
 
-class DirectoryReadTool(BaseTool):
+
+class FixedEmbeddingToolSchema(BaseModel):
+    """Input for EmbeddingTool"""
+
+    pass
+
+
+class EmbeddingToolSchema(FixedEmbeddingToolSchema):
+    """Input for EmbeddingTool"""
+
+    config_path: str = Field(..., description="Base config path containing paths to knowledge base and db")
+
+
+
+class EmbeddingTool(BaseTool):
     name: str = "Create embedding for CSV and JSON files"
     description: str = (
         "A tool that can be used to embed the data from a CSV or JSON file and store the embedding into a database"
     )
-
-    config_path: Optional[dict] = None
-
-# '''
-# A custom CrewAI tool that takes CSV and JSON file paths from a config file,
-# creates embeddings using Ollama, and stores them in a Chroma database at a
-# specified path.
+    args_schema: Type[BaseModel] = EmbeddingToolSchema
+    config_path: Optional[str] = None
 
 
-# name = "Data Embedding Tool"
-# description = 
-# This tool takes paths to a config file (YAML) and a database directory as input.
-# The config file should contain the paths to the CSV and JSON files under the
-# 'csv' and 'json' headers, respectively. The 'db_path' input specifies where
-# the Chroma database will be stored. It reads the data, creates embeddings
-# using Ollama, and stores them in a Chroma database.
+    def __init__(self, config_path: Optional[str] = None, **kwargs):
+        super().__init__(**kwargs)
 
-# Input: A dictionary with 'knowledge_config_path' and 'db_path' keys.
-#         Example: {'knowledge_config_path': 'config.yaml', 'db_path': './my_chroma_db'}
-# Output: A string indicating success or failure along with details.
-
-# '''
+        if config_path is not None:
+            self.config_path = config_path
+            self.description = f"A tool that can be used to embed the knowledge in {config_path}'s content."
+            self.args_schema = FixedEmbeddingToolSchema
+            self._generate_description()    
 
 
-    def _run(self, input_data: Dict[str, str]) -> str:
+    def _run(self, **kwargs: Any) -> str:
         """This tool will be used in creating embeddings from the JSON and CSV data from the config file present in the input string and store those embeddings in a database"""
 
-        try:
-            knowledge_config_path = input_data.get("knowledge_config_path")
-            db_config_path = input_data.get("db_config_path")
+        base_config_path = kwargs.get("config_path", self.config_path)
+        # base_config_path = self.config_path
 
-            if not knowledge_config_path:
-                return "Error: 'knowledge_config_path' must be provided."
-            if not db_config_path:
-                return "Error: 'db_config_path' must be provided."
+        try:
+            with open(base_config_path, 'r') as f:
+                base_config = yaml.safe_load(f)
+        except FileNotFoundError:
+            return f"Error: Config file not found at {base_config_path}"
+        except yaml.YAMLError as e:
+            return f"Error: Could not parse config file at {base_config_path}: {e}"
+
+
+
+        try:
+            base_knowledge_config = base_config.get("knowledge_base")
+            base_db_config = base_config.get("db")
+
+            if not base_knowledge_config:
+                return "Error: 'base_knowledge_config' must be provided."
+            if not base_db_config:
+                return "Error: 'base_db_config' must be provided."
 
             # Read config file
-            try:
-                with open(knowledge_config_path, 'r') as f:
-                    knowledge_config = yaml.safe_load(f)
-            except FileNotFoundError:
-                return f"Error: Config file not found at {knowledge_config_path}"
-            except yaml.YAMLError as e:
-                return f"Error: Could not parse config file at {knowledge_config_path}: {e}"
+            csv_paths = base_knowledge_config.get("csv_paths", [])
+            json_paths = base_knowledge_config.get("json_paths", [])
 
-            csv_path = knowledge_config.get("csv")
-            json_path = knowledge_config.get("json")
+            print(csv_paths, json_paths)
 
-            if not csv_path or not json_path:
+            if not csv_paths or not json_paths:
                 return "Error: Both 'csv' and 'json' paths must be defined in the config file."
 
             # Read CSV
-            try:
-                df_csv = pd.read_csv(csv_path)
-                csv_docs = [Document(page_content=str(row.to_dict()), metadata={"source": "csv", "row_index": i}) for i, row in df_csv.iterrows()]
-            except FileNotFoundError:
-                return f"Error: CSV file not found at {csv_path}"
-            except pd.errors.ParserError:
-                return f"Error: Could not parse CSV file at {csv_path}. Check the file format."
+            for csv_path in csv_paths:
+                try:
+                    df_csv = pd.read_csv(csv_path)
+                    csv_docs = [Document(page_content=str(row.to_dict()), metadata={"source": "csv", "row_index": i}) for i, row in df_csv.iterrows()]
+                except FileNotFoundError:
+                    return f"Error: CSV file not found at {csv_path}"
+                except pd.errors.ParserError:
+                    return f"Error: Could not parse CSV file at {csv_path}. Check the file format."
 
             # Read JSON
-            try:
-                with open(json_path, 'r') as f:
-                    json_data = json.load(f)
-                if isinstance(json_data, list):
-                    json_docs = [Document(page_content=json.dumps(item), metadata={"source": "json", "item_index": i}) for i, item in enumerate(json_data)]
-                elif isinstance(json_data, dict):
-                    json_docs = [Document(page_content=json.dumps(json_data), metadata={"source": "json"})]
-                else:
-                    return f"Error: JSON file at {json_path} contains unexpected data structure. It should be a list or a dict."
-            except FileNotFoundError:
-                return f"Error: JSON file not found at {json_path}"
-            except json.JSONDecodeError:
-                return f"Error: Could not parse JSON file at {json_path}. Check the file format."
+            for json_path in json_paths:
+                try:
+                    with open(json_path, 'r') as f:
+                        json_data = json.load(f)
+                    if isinstance(json_data, list):
+                        json_docs = [Document(page_content=json.dumps(item), metadata={"source": "json", "item_index": i}) for i, item in enumerate(json_data)]
+                    elif isinstance(json_data, dict):
+                        json_docs = [Document(page_content=json.dumps(json_data), metadata={"source": "json"})]
+                    else:
+                        return f"Error: JSON file at {json_path} contains unexpected data structure. It should be a list or a dict."
+                    
+                except FileNotFoundError:
+                    return f"Error: JSON file not found at {json_path}"
+                except json.JSONDecodeError:
+                    return f"Error: Could not parse JSON file at {json_path}. Check the file format."
+                
 
             all_docs = csv_docs + json_docs
 
 
-            try:
-                with open(db_config_path, 'r') as f:
-                    db_config = yaml.safe_load(f)
-            except FileNotFoundError:
-                return f"Error: Config file not found at {knowledge_config_path}"
-            except yaml.YAMLError as e:
-                return f"Error: Could not parse config file at {knowledge_config_path}: {e}"
-
-            db_path = db_config.get("chroma_db_path")
+            db_path = base_db_config.get("chroma_db_path")
             # Create embeddings and store in Chroma
             embeddings = OllamaEmbeddings(base_url="http://localhost:11434", model="mxbai-embed-large")
+
+            
             # Ensure the directory exists
             os.makedirs(db_path, exist_ok=True)
             vectordb = Chroma.from_documents(documents=all_docs, embedding=embeddings, persist_directory=db_path)
             vectordb.persist()
 
-            return f"Data successfully embedded and stored in Chroma database at {db_path}."
+            return f"Data successfully embedded and stored in Chroma database at '{db_path}'."
 
         except Exception as e:
             return f"An unexpected error occurred: {e}"
+        

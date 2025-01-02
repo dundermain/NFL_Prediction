@@ -95,6 +95,17 @@ def _run(input_data: Dict[str, str]) -> str:
         return f"An unexpected error occurred: {e}"
     
 
+def retreive_documents(user_query, db_path):
+
+    embeddings = OllamaEmbeddings(base_url="http://localhost:11434", model="mxbai-embed-large")
+
+    vector_db = Chroma(persist_directory = db_path, embedding_function= embeddings)
+
+    relevant_info = vector_db.similarity_search(user_query)
+
+    return relevant_info
+    
+
 if __name__ == "__main__":
     tool = _run(input_data = {"knowledge_config_path": "src/nfl_prediciton_assistant/config/knowledge.yaml", "db_config_path": "src/nfl_prediciton_assistant/config/db_config.yaml"})
-    print(tool)
+    print(retreive_documents(user_query='How many players of Bucccaneers got injured in 2023?', db_path='db'))

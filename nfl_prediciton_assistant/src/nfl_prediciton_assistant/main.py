@@ -15,10 +15,26 @@ def run():
     """
     Run the crew.
     """
-    inputs = {
-        'topic': 'AI LLMs'
-    }
-    NflPredicitonAssistant().crew().kickoff(inputs=inputs)
+    print("Welcome to the NFL Agent! Type 'exit' to quit.")
+
+    while True:
+        user_query = input("\nHow can I help you today?: ")
+
+        user_input = {'Question': user_query}
+
+
+
+        if user_query.lower() == "exit":
+            print("Goodbye! ")
+            break
+        try:
+            response = NflPredicitonAssistant().crew().kickoff(inputs=user_input)
+            print(f"\nResponse:\n{response}")
+
+        except Exception as e:
+            print(f"Error: {e}")
+
+    
 
 
 def train():

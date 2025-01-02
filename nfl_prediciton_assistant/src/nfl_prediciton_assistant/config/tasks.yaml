@@ -1,63 +1,62 @@
-  data_preparation_task:
-    description: >
-      Gather and preprocess data from various sources.Please find all the information related to Cowboys
+data_embedding_task:
+  description: >
+    Gather and preprocess data from various sources.
+  expected_output: >
+    Database containing all the embedded data from the CSV an JSON file present in config
+  agent: data_embedding_agent
 
-    expected_output: >
-      The information should be extracted from varioud data sources and stored in the vector database. Please give the database as output
-    agent: data_preparation_agent
+# statistical_analysis_task:
+#   description: >
+#     Compute basic statistical metrics from processed data.
+#   expected_output: >
+#     Statistical summaries including mean, median, variance, etc.
+#   agent: statistical_analysis_agent
 
-  # statistical_analysis_task:
-  #   description: >
-  #     Compute basic statistical metrics from processed data.
-  #   expected_output: >
-  #     Statistical summaries including mean, median, variance, etc.
-  #   agent: statistical_analysis_agent
+# contextual_analysis_task:
+#   description: >
+#     Analyze data in the context of game-specific factors.
+#   expected_output: >
+#     Contextual insights tailored to the game's nuances.
+#   agent: contextual_analysis_agent
 
-  # contextual_analysis_task:
-  #   description: >
-  #     Analyze data in the context of game-specific factors.
-  #   expected_output: >
-  #     Contextual insights tailored to the game's nuances.
-  #   agent: contextual_analysis_agent
+# matchup_analysis_task:
+#   description: >
+#     Assess key matchups based on processed data.
+#   expected_output: >
+#     Detailed comparison of critical matchups.
+#   agent: matchup_analysis_agent
 
-  # matchup_analysis_task:
-  #   description: >
-  #     Assess key matchups based on processed data.
-  #   expected_output: >
-  #     Detailed comparison of critical matchups.
-  #   agent: matchup_analysis_agent
+# historical_performance_task:
+#   description: >
+#     Provide historical performance context for the data.
+#   expected_output: >
+#     Historical trends and insights relevant to current analysis.
+#   agent: historical_performance_agent
 
-  # historical_performance_task:
-  #   description: >
-  #     Provide historical performance context for the data.
-  #   expected_output: >
-  #     Historical trends and insights relevant to current analysis.
-  #   agent: historical_performance_agent
+# expert_knowledge_task:
+#   description: >
+#     Integrate domain expertise into the analysis.
+#   expected_output: >
+#     Insights and recommendations based on expert domain knowledge.
+#   agent: expert_knowledge_agent
 
-  # expert_knowledge_task:
-  #   description: >
-  #     Integrate domain expertise into the analysis.
-  #   expected_output: >
-  #     Insights and recommendations based on expert domain knowledge.
-  #   agent: expert_knowledge_agent
+# machine_learning_task:
+#   description: >
+#     Generate predictions using trained machine learning models.
+#   expected_output: >
+#     Predictive results with confidence intervals.
+#   agent: machine_learning_agent
 
-  # machine_learning_task:
-  #   description: >
-  #     Generate predictions using trained machine learning models.
-  #   expected_output: >
-  #     Predictive results with confidence intervals.
-  #   agent: machine_learning_agent
+# consensus_prediction_task:
+#   description: >
+#     Combine outputs from all agents for the final prediction.
+#   expected_output: >
+#     A cohesive final prediction integrating all insights.
+#   agent: consensus_agent
 
-  # consensus_prediction_task:
-  #   description: >
-  #     Combine outputs from all agents for the final prediction.
-  #   expected_output: >
-  #     A cohesive final prediction integrating all insights.
-  #   agent: consensus_agent
-
-  consensus_prediction_task:
-    description: >
-      Derive insights from database prepared by data_preparation_agent
-    expected_output: >
-      A detailed summar of the team asked in data_preparation_task. Get all the details from the database prepared by the data_preparation_agent for the team Cowboys
-    agent: consensus_agent
+consensus_prediction_task:
+  description: >
+    Derive insights from database prepared by data_embedding_agent based on the queries
+  expected_output: >
+    A detailed summary of the names mentioned in the user queries
+  agent: consensus_agent

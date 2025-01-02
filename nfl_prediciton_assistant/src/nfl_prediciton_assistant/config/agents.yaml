@@ -1,6 +1,6 @@
-data_preparation_agent:
+data_embedding_agent:
   role: >
-    Data Preparation Agent
+    Embed the data from CSV and JSON and put in database
   goal: >
     Preprocess the CSV and JSON data and store the embedding in the vector database.
   backstory: >
@@ -76,7 +76,7 @@ consensus_agent:
   role: >
     Consensus Agent
   goal: >
-    Use the database made by data_preparation_agent and give the necessary details
+    Use the database made by data_embedding_agent and give the necessary details
   backstory: >
     You are a synthesizer, adept at integrating diverse inputs into
-    cohesive and actionable conclusions. Use the database made by data_preparation_agent and give the details of the teams
+    cohesive and actionable conclusions. Use the database made by data_embedding_agent and give the details of the teams

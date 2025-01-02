@@ -1,0 +1,13 @@
+knowledge_base:
+  csv_paths:
+    - /home/sachin/Music/NFL/Kaggle_Data/team_stats_2003_2023.csv
+    - /home/sachin/Music/NFL/Kaggle_Data/nfl_combine_2010_to_2023.csv
+    - /home/sachin/Music/NFL/Kaggle_Data/ThrowbackDataThursday 2019 Week 1 - NFL Injuries 2012 to 2017.csv
+
+  json_paths:
+    - /home/sachin/Music/NFL/SportsRadar_API/season_schedule/2023/season_schedule_2023_REG.json
+    - /home/sachin/Music/NFL/SportsRadar_API/nfl_injuries/2023/nfl_injuries_2023_REG_week1.json
+    - /home/sachin/Music/NFL/SportsRadar_API/season_standing/2023/season_standings_2023_REG.json
+
+db: 
+  chroma_db_path: db
