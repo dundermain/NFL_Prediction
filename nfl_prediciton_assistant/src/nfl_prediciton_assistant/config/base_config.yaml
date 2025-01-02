@@ -11,3 +11,15 @@ knowledge_base:
 
 db: 
   chroma_db_path: db
+
+nfl_websites:
+  nfl: https://www.nfl.com/international/
+  espn: https://www.espn.com/nfl/
+  nfl_news: https://www.nfl.com/news/
+  cbs: https://www.cbssports.com/nfl/#:~:text=NFL%20Football%20%2D%20News%2C%20Scores%2C,National%20Football%20League%20%2D%20CBSSports.com
+  espn_news: https://www.espn.com/nfl/news/
+  pfr: https://www.pro-football-reference.com/
+  
+
+
+

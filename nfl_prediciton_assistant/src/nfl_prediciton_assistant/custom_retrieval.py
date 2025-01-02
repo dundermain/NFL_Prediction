@@ -17,16 +17,18 @@ class RetrievalToolSchema(FixedRetrievalToolSchema):
     """Input for RetrievalTool"""
 
     config_path: str = Field(..., description="Base config path containing paths to knowledge base and db")
+    user_query: str = Field(..., description="User query")
 
 
 
 class RetrievalTool(BaseTool):
-    name: str = "Create embedding for CSV and JSON files"
+    name: str = "Retrieve the relevant documents and information" 
     description: str = (
-        "A tool that can be used to embed the data from a CSV or JSON file and store the embedding into a database"
+        "A tool that can be used to retrieve the relevant documents and information from database"
     )
     args_schema: Type[BaseModel] = RetrievalToolSchema
     config_path: Optional[str] = None
+    user_query: Optional[str] = None
 
 
     def __init__(self, config_path: Optional[str] = None, user_query: Optional[str] = None,**kwargs):
@@ -34,13 +36,14 @@ class RetrievalTool(BaseTool):
 
         if config_path is not None:
             self.config_path = config_path
-            self.description = f"A tool that can be used to embed the knowledge in {config_path}'s content."
+            self.user_query = user_query
+            self.description = f"A tool that can be used to retrieve the relevant documents and information from database in {config_path}'s db path."
             self.args_schema = FixedRetrievalToolSchema
             self._generate_description()    
 
 
     def _run(self, **kwargs: Any) -> str:
-        """This tool will be used in creating embeddings from the JSON and CSV data from the config file present in the input string and store those embeddings in a database"""
+        """This tool will be used in retrieving embeddings from the database"""
 
         base_config_path = kwargs.get("config_path", self.config_path)
 
@@ -51,7 +54,6 @@ class RetrievalTool(BaseTool):
             return f"Error: Config file not found at {base_config_path}"
         except yaml.YAMLError as e:
             return f"Error: Could not parse config file at {base_config_path}: {e}"
-
 
 
         try:
@@ -67,7 +69,9 @@ class RetrievalTool(BaseTool):
 
             vector_db = Chroma(persist_directory = db_path, embedding_function= embeddings)
 
-            relevant_info = vector_db.similarity_search("Jaguars")
+            user_query = kwargs.get("user_query", self.user_query)
+
+            relevant_info = vector_db.similarity_search_by_vector(embedding=embeddings.embed_query(user_query))
 
             return relevant_info
 

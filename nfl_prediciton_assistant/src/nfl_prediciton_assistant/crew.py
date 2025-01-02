@@ -1,8 +1,8 @@
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
-from ._tools import json_to_embeddings, csv_to_embeddings
 from .custom_embedder import EmbeddingTool
 from .custom_retrieval import RetrievalTool
+from .custom_websearch import WebSearch
 
 
 
@@ -27,7 +27,7 @@ class NflPredicitonAssistant():
 			config = self.agents_config['data_embedding_agent'],
 			verbose = False,
 			llm = llm,
-			tools=[EmbeddingTool(config_path=self.base_config)],
+			tools=[EmbeddingTool(config_path=self.base_config), WebSearch(config_path=self.base_config)],
 		)
 		
 		return data_embedder
@@ -39,8 +39,7 @@ class NflPredicitonAssistant():
 			config = self.agents_config['data_retrieval_agent'],
 			verbose = True,
 			llm = llm,
-			# prompt_template="""<|start_header_id|>user<|end_header_id|>{{ .Prompt }}<|eot_id|>""",
-			tools = [RetrievalTool(config_path=self.base_config )],
+			tools = [RetrievalTool(config_path=self.base_config, result_as_answer=True)],
 		)
 
 		return data_retrieval
@@ -49,11 +48,13 @@ class NflPredicitonAssistant():
 	@agent
 	def consensus_agent(self) -> Agent:
 
-		return Agent(
+		consensus_agent = Agent(
 			config=self.agents_config['consensus_agent'],
 			verbose=True,
 			llm = llm,
 		)
+
+		return consensus_agent
 
 
 	

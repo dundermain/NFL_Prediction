@@ -2,7 +2,7 @@ data_embedding_task:
   description: >
     Gather and preprocess data from various sources.
   expected_output: >
-    Database containing all the embedded data from the CSV an JSON file present in config
+    Database containing all the embedded data from the sources using the specified tools
   agent: data_embedding_agent
 
 data_retrieval_task:
@@ -12,58 +12,65 @@ data_retrieval_task:
     List of all the relevant documents related to user prompt from ChromaDB 
   agent: data_retrieval_agent
 
-# statistical_analysis_task:
-#   description: >
-#     Compute basic statistical metrics from processed data.
-#   expected_output: >
-#     Statistical summaries including mean, median, variance, etc.
-#   agent: statistical_analysis_agent
+trend_analysis_task:
+  description: >
+    Analyze the performance trends of the mentioned teams over their last 5 games.
+  expected_output: >
+    Detailed analysis of trends, patterns, and key performance metrics from the last 5 games.
+  agent: trend_analysis_agent
 
-# contextual_analysis_task:
-#   description: >
-#     Analyze data in the context of game-specific factors.
-#   expected_output: >
-#     Contextual insights tailored to the game's nuances.
-#   agent: contextual_analysis_agent
+team_changes_task:
+  description: >
+    Identify any recent team changes, player trades, or roster updates that could influence game outcomes.
+  expected_output: >
+    Comprehensive list of team changes, player trades, and their potential impact on team performance.
+  agent: team_changes_agent
 
-# matchup_analysis_task:
-#   description: >
-#     Assess key matchups based on processed data.
-#   expected_output: >
-#     Detailed comparison of critical matchups.
-#   agent: matchup_analysis_agent
+injury_analysis_task:
+  description: >
+    Analyze the injuries to players in the mentioned teams that could hamper performance.
+  expected_output: >
+    Detailed report on player injuries, including severity and impact on team dynamics.
+  agent: injury_analysis_agent
 
-# historical_performance_task:
-#   description: >
-#     Provide historical performance context for the data.
-#   expected_output: >
-#     Historical trends and insights relevant to current analysis.
-#   agent: historical_performance_agent
+head_to_head_analysis_task:
+  description: >
+    Analyze head-to-head match data from the last 5 years for the mentioned teams.
+  expected_output: >
+    Summary of performance trends, strategies, and key insights from past head-to-head encounters.
+  agent: head_to_head_analysis_agent
 
-# expert_knowledge_task:
-#   description: >
-#     Integrate domain expertise into the analysis.
-#   expected_output: >
-#     Insights and recommendations based on expert domain knowledge.
-#   agent: expert_knowledge_agent
+current_season_performance_task:
+  description: >
+    Evaluate the current season performance of the mentioned teams, focusing on key metrics like wins, losses, and points scored.
+  expected_output: >
+    Detailed report on the current season performance metrics, highlighting trends and critical data.
+  agent: current_season_performance_agent
 
-# machine_learning_task:
-#   description: >
-#     Generate predictions using trained machine learning models.
-#   expected_output: >
-#     Predictive results with confidence intervals.
-#   agent: machine_learning_agent
+coaching_strategy_task:
+  description: >
+    Analyze coaching strategies and decisions that could strategically affect team performance.
+  expected_output: >
+    Insights into coaching approaches, tactical decisions, and their impact on the teams' performance.
+  agent: coaching_strategy_analysis_agent
 
-# consensus_prediction_task:
-#   description: >
-#     Combine outputs from all agents for the final prediction.
-#   expected_output: >
-#     A cohesive final prediction integrating all insights.
-#   agent: consensus_agent
+environmental_impact_task:
+  description: >
+    Analyze the impact of venue, weather, humidity, and other environmental factors on team performance.
+  expected_output: >
+    Assessment of environmental conditions and their strategic or physical influence on the teams' performance.
+  agent: environmental_impact_analysis_agent
+
+performance_summary_task:
+  description: >
+    Aggregate the outputs of all specialized agents to provide a detailed summary of factors affecting team performance.
+  expected_output: >
+    Comprehensive and integrated summary of all key factors influencing the teams' performance, covering trends, injuries, strategies, environmental factors, and more.
+  agent: performance_summary_agent
 
 consensus_prediction_task:
   description: >
-    Derive insights from output of data_retrieval_agent
+    Derive insights from output of performance_summary_agent
   expected_output: >
-    A detailed summary of the document retrieved in the output of data_retrieval_agent
+    A detailed summary of the key factors influencing the teams' performance based on the output of performance_summary_agent
   agent: consensus_agent

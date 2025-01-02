@@ -108,4 +108,4 @@ def retreive_documents(user_query, db_path):
 
 if __name__ == "__main__":
     tool = _run(input_data = {"knowledge_config_path": "src/nfl_prediciton_assistant/config/knowledge.yaml", "db_config_path": "src/nfl_prediciton_assistant/config/db_config.yaml"})
-    print(retreive_documents(user_query='How many players of Bucccaneers got injured in 2023?', db_path='db'))
+    print(retreive_documents(user_query='update on jaguars', db_path='db'))

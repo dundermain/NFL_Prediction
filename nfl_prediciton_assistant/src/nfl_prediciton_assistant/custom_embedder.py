@@ -43,6 +43,17 @@ class EmbeddingTool(BaseTool):
             self._generate_description()    
 
 
+
+    def _find_sqlite3_files(self, directory):
+        # Iterate through all files and directories in the given path
+        for root, dirs, files in os.walk(directory):
+            for file in files:
+                if file.endswith('.sqlite3'):
+                    print(f"Found .sqlite3 file: {os.path.join(root, file)}")
+                    return True 
+        return False
+
+
     def _run(self, **kwargs: Any) -> str:
         """This tool will be used in creating embeddings from the JSON and CSV data from the config file present in the input string and store those embeddings in a database"""
 
@@ -109,6 +120,10 @@ class EmbeddingTool(BaseTool):
 
 
             db_path = base_db_config.get("chroma_db_path")
+
+            if self._find_sqlite3_files(db_path):
+                return f"ChromaDB already exists at {db_path}. Please delete the files to create a new database if you have new knowledge base."
+            
             # Create embeddings and store in Chroma
             embeddings = OllamaEmbeddings(base_url="http://localhost:11434", model="mxbai-embed-large")
 
