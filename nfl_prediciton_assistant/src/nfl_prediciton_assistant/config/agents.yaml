@@ -35,6 +35,7 @@ trend_analysis_agent:
     Your primary task is to deliver insights on the trends, patterns, and critical factors influencing the teams' performance, such as scores, strategies, and key player contributions. 
     Use only the most relevant and accurate data retrieved by other agents to ensure precise and actionable insights.
     Ensure all information is precise and relevant to aid further analysis and decision-making.
+    Keep in mind that we need to predict who will be the winner among the two teamns mentioned in {Question}. So keep the information that might be useful for this.
 
 
 team_changes_agent:
@@ -48,7 +49,7 @@ team_changes_agent:
     Your primary task is to uncover and report impactful changes, such as player trades, roster updates, injuries, or management decisions, that might influence game results for the teams in {Question}. 
     Use reliable and up-to-date data sources to ensure your insights are accurate and actionable for further analysis.
     Ensure all information is precise and relevant to aid further analysis and decision-making.
-
+    Keep in mind that we need to predict who will be the winner among the two teamns mentioned in {Question}. So keep the information that might be useful for this.
 
 injury_analysis_agent:
   role: >
@@ -61,7 +62,7 @@ injury_analysis_agent:
     Your primary task is to identify key injuries, assess their severity, and determine their potential influence on game strategies and results. 
     Rely on accurate and up-to-date injury reports to deliver precise and relevant insights for further evaluation.
     Ensure all information is precise and relevant to aid further analysis and decision-making.
-
+    Keep in mind that we need to predict who will be the winner among the two teamns mentioned in {Question}. So keep the information that might be useful for this.
 
 head_to_head_analysis_agent:
   role: >
@@ -74,7 +75,7 @@ head_to_head_analysis_agent:
     Your primary task is to evaluate the performance, strategies, and critical factors from the last 5 years of head-to-head games between the mentioned teams in {Question}. 
     Focus on identifying trends, strengths, weaknesses, and potential game-changing insights to support further analysis and predictions.
     Ensure all information is precise and relevant to aid further analysis and decision-making.
-
+    Keep in mind that we need to predict who will be the winner among the two teamns mentioned in {Question}. So keep the information that might be useful for this.
 
 current_season_performance_agent:
   role: >
@@ -86,7 +87,7 @@ current_season_performance_agent:
     Use the Retrieval Tool to collect the relevant data. The user_query for the Retrieval Tool will be {Question} 
     Your primary task is to analyze performance indicators such as win-loss records, points scored, points conceded, and other critical data to provide a clear picture of how the teams in {Question} are performing. 
     Ensure all information is precise and relevant to aid further analysis and decision-making.
-
+    Keep in mind that we need to predict who will be the winner among the two teamns mentioned in {Question}. So keep the information that might be useful for this.
 
 coaching_strategy_analysis_agent:
   role: >
@@ -99,7 +100,7 @@ coaching_strategy_analysis_agent:
     Your primary task is to evaluate strategies, game plans, roster management, and in-game adjustments made by the coaching staff of the mentioned teams in {Question}. 
     Focus on identifying patterns, strengths, weaknesses, and their strategic implications to offer actionable insights for further analysis.
     Ensure all information is precise and relevant to aid further analysis and decision-making.
-
+    Keep in mind that we need to predict who will be the winner among the two teamns mentioned in {Question}. So keep the information that might be useful for this.
 
 environmental_impact_analysis_agent:
   role: >
@@ -112,7 +113,7 @@ environmental_impact_analysis_agent:
     Your primary task is to analyze factors like venue-specific advantages or disadvantages, weather conditions (e.g., temperature, wind, rain), and humidity levels to determine their potential strategic and physical impact on the teams. 
     Deliver insights based on reliable data to aid in understanding the role of environmental variables in game outcomes.
     Ensure all information is precise and relevant to aid further analysis and decision-making.
-
+    Keep in mind that we need to predict who will be the winner among the two teamns mentioned in {Question}. So keep the information that might be useful for this.
 
 performance_summary_agent:
   role: >
@@ -124,7 +125,9 @@ performance_summary_agent:
     Your primary task is to integrate the findings from specialized agents, including analyses of team dynamics, player injuries, historical head-to-head data, current season metrics, coaching strategies, and environmental impacts. 
     Deliver a clear, detailed summary that highlights the critical factors influencing the game, helping stakeholders make informed decisions.
     Ensure all information is precise and relevant to aid further analysis and decision-making.
+    Keep in mind that we need to predict who will be the winner among the two teamns mentioned in {Question}. So keep the information that might be useful for this.
 
+    
 consensus_agent:
   role: >
     Consensus Agent
