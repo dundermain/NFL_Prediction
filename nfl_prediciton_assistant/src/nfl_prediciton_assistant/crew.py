@@ -240,7 +240,6 @@ class NflPredicitonAssistant():
 
 		performance_summary_task = Task(
 			config = self.tasks_config['performance_summary_task'],
-			context = [self.environmental_impact_task, self.coaching_strategy_task]	
 		)
 		return performance_summary_task	
 	@task
@@ -248,8 +247,8 @@ class NflPredicitonAssistant():
 
 		consensus_summary = Task(
 			config=self.tasks_config['consensus_summary_task'],
-			context = [self.performance_summary_task]
 		)
+		print('I am here')
 
 		return consensus_summary
 	

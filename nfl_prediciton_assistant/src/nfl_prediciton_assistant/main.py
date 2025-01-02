@@ -18,7 +18,8 @@ def run():
     print("Welcome to the NFL Agent! Type 'exit' to quit.")
 
     while True:
-        user_query = input("\nHow can I help you today?: ")
+        # user_query = input("\nHow can I help you today?: ")
+        user_query = "injuries"
 
         user_input = {'Question': user_query}
 

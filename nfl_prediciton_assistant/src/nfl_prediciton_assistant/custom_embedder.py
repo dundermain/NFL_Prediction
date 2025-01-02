@@ -58,7 +58,7 @@ class EmbeddingTool(BaseTool):
         """This tool will be used in creating embeddings from the JSON and CSV data from the config file present in the input string and store those embeddings in a database"""
 
         base_config_path = kwargs.get("config_path", self.config_path)
-        # base_config_path = self.config_path
+
 
         try:
             with open(base_config_path, 'r') as f:
