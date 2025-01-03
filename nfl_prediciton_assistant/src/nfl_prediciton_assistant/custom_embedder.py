@@ -83,7 +83,6 @@ class EmbeddingTool(BaseTool):
             csv_paths = base_knowledge_config.get("csv_paths", [])
             json_paths = base_knowledge_config.get("json_paths", [])
 
-            print(csv_paths, json_paths)
 
             if not csv_paths or not json_paths:
                 return "Error: Both 'csv' and 'json' paths must be defined in the config file."

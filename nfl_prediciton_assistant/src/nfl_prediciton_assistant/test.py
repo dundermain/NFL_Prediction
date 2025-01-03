@@ -11,6 +11,10 @@ import os
 from typing import Optional
 
 
+from crewai_tools import JSONSearchTool
+
+
+
 
 
 def _run(input_data: Dict[str, str]) -> str:

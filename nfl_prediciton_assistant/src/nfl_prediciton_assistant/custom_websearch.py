@@ -16,6 +16,8 @@ def WebSearch(config_path):
         tool = WebsiteSearchTool(
 
             website = web_address,
+            summarize = True,
+            
             config={
                 "llm": {
                     "provider": "ollama",  # Other options include google, openai, anthropic, llama2, etc.

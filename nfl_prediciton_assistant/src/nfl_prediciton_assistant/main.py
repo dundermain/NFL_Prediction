@@ -17,11 +17,15 @@ def run():
     """
     print("Welcome to the NFL Agent! Type 'exit' to quit.")
 
-    while True:
+    i = 0
+
+    while i<1:
         # user_query = input("\nHow can I help you today?: ")
-        user_query = "nfl jaguars vs titans"
+        user_query = "jaguars vs panthers"
 
         user_input = {'Question': user_query}
+
+        i += 1
 
 
 

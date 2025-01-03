@@ -8,17 +8,18 @@ data_embedding_task:
 
 data_retrieval_task:
   description: >
-    Retrieve the documents from the database
+    Retrieve the documents from the database using the tools mentioned
   expected_output: >
-    List of all the relevant documents related to user prompt from ChromaDB 
+    List of all the relevant documents related to user prompt from database
   agent: data_retrieval_agent
 
 trend_analysis_task:
   description: >
     Analyze the performance trends of the mentioned teams over their last 5 games.
   expected_output: >
-    Detailed analysis of trends, patterns, and key performance metrics from the last 5 games.
+    Detailed analysis of trends, patterns, and key performance metrics from the last 5 games for the teams mentioned in {Question}.
   agent: trend_analysis_agent
+  output_file: output/trend_analysis_report.md
 
 team_changes_task:
   description: >
@@ -26,13 +27,15 @@ team_changes_task:
   expected_output: >
     Comprehensive list of team changes, player trades, and their potential impact on team performance.
   agent: team_changes_agent
+  output_file: output/team_changes_report.md
 
 injury_analysis_task:
   description: >
     Analyze the injuries to players in the mentioned teams that could hamper performance.
   expected_output: >
-    Detailed report on player injuries, including severity and impact on team dynamics.
+    Detailed report on player injuries from the teams mentioned in {Question}, including severity and impact on team dynamics.
   agent: injury_analysis_agent
+  output_file: output/injury_analysis_report.md
 
 head_to_head_analysis_task:
   description: >
@@ -40,6 +43,7 @@ head_to_head_analysis_task:
   expected_output: >
     Summary of performance trends, strategies, and key insights from past head-to-head encounters.
   agent: head_to_head_analysis_agent
+  output_file: output/head_to_head_analysis_report.md
 
 current_season_performance_task:
   description: >
@@ -47,6 +51,7 @@ current_season_performance_task:
   expected_output: >
     Detailed report on the current season performance metrics, highlighting trends and critical data.
   agent: current_season_performance_agent
+  output_file: output/current_season_performance_report.md
 
 coaching_strategy_task:
   description: >
@@ -54,6 +59,7 @@ coaching_strategy_task:
   expected_output: >
     Insights into coaching approaches, tactical decisions, and their impact on the teams' performance.
   agent: coaching_strategy_analysis_agent
+  output_file: output/final_report.md
 
 environmental_impact_task:
   description: >
@@ -61,6 +67,7 @@ environmental_impact_task:
   expected_output: >
     Assessment of environmental conditions and their strategic or physical influence on the teams' performance.
   agent: environmental_impact_analysis_agent
+  output_file: output/coaching_strategy_report.md
 
 performance_summary_task:
   description: >
@@ -68,6 +75,14 @@ performance_summary_task:
   expected_output: >
     Comprehensive and integrated summary of all key factors influencing the teams' performance, covering trends, injuries, strategies, environmental factors, and more.
   agent: performance_summary_agent
+  context:
+    - trend_analysis_task
+    - injury_analysis_task
+    - head_to_head_analysis_task
+    - current_season_performance_task
+    - coaching_strategy_task
+    - environmental_impact_task
+  output_file: output/performance_summary_report.md
 
 
 consensus_summary_task:
@@ -76,4 +91,6 @@ consensus_summary_task:
   expected_output: >
     A detailed summary of the key factors influencing the teams' performance based on the output of performance_summary_agent
   agent: consensus_agent
-  output_file: report.md
+  context:
+    - performance_summary_task
+  output_file: output/final_report.md

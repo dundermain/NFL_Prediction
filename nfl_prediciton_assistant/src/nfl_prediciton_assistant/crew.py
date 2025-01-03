@@ -3,7 +3,8 @@ from crewai.project import CrewBase, agent, crew, task
 from .custom_embedder import EmbeddingTool
 from .custom_retrieval import RetrievalTool
 from .custom_websearch import WebSearch
-
+from .custom_jsonsearch import JSONSearch
+from. custom_csvsearch import CSVSearch
 
 
 
@@ -20,6 +21,7 @@ class NflPredicitonAssistant():
 	base_config = '/home/sachin/Music/NeevHQ/NFL_Prediction/nfl_prediciton_assistant/src/nfl_prediciton_assistant/config/base_config.yaml'
 
 
+
 	#sequence of agents
 	@agent
 	def data_embedding_agent(self) -> Agent:
@@ -28,7 +30,8 @@ class NflPredicitonAssistant():
 			config = self.agents_config['data_embedding_agent'],
 			verbose = False,
 			llm = llm,
-			tools=[EmbeddingTool(config_path=self.base_config), WebSearch(config_path=self.base_config)],
+			tools=[EmbeddingTool(config_path=self.base_config)],
+			max_iter = 5,
 		)
 		print("Embedding Done")
 		return data_embedder
@@ -41,6 +44,7 @@ class NflPredicitonAssistant():
 			verbose = True,
 			llm = llm,
 			tools = [RetrievalTool(config_path=self.base_config)],
+			max_iter = 5,
 		)
 		print("Retrieval Done")
 		return data_retrieval
@@ -52,7 +56,8 @@ class NflPredicitonAssistant():
 			config = self.agents_config['trend_analysis_agent'],
 			verbose = True,
 			llm = llm,
-			tools = [RetrievalTool(config_path=self.base_config)],
+			# tools = [RetrievalTool(config_path=self.base_config)],
+			tools = [JSONSearch(config_path=self.base_config), CSVSearch(config_path=self.base_config)],
 		)
 		print("Trend Analysis Done")
 		return trend_analysis
@@ -64,7 +69,8 @@ class NflPredicitonAssistant():
 			config = self.agents_config['team_changes_agent'],
 			verbose = True,
 			llm = llm,
-			tools = [RetrievalTool(config_path=self.base_config)],
+			# tools = [RetrievalTool(config_path=self.base_config)],
+			tools = [JSONSearch(config_path=self.base_config), CSVSearch(config_path=self.base_config), WebSearch(config_path=self.base_config)],
 		)
 		print("Team change Analysis Done")
 		return team_changes
@@ -76,7 +82,8 @@ class NflPredicitonAssistant():
 			config = self.agents_config['injury_analysis_agent'],
 			verbose = True,
 			llm = llm,
-			tools = [RetrievalTool(config_path=self.base_config)],
+			# tools = [RetrievalTool(config_path=self.base_config)],
+			tools = [JSONSearch(config_path=self.base_config), CSVSearch(config_path=self.base_config), WebSearch(config_path=self.base_config)],
 		)
 		print("Injury Analysis Done")
 		return injury_analysis
@@ -88,7 +95,8 @@ class NflPredicitonAssistant():
 			config = self.agents_config['head_to_head_analysis_agent'],
 			verbose = True,
 			llm = llm,
-			tools = [RetrievalTool(config_path=self.base_config)],
+			# tools = [RetrievalTool(config_path=self.base_config)],
+			tools = [JSONSearch(config_path=self.base_config), CSVSearch(config_path=self.base_config)],
 		)
 		print("Team's head to head Analysis Done")
 		return head_to_head_analysis
@@ -100,7 +108,8 @@ class NflPredicitonAssistant():
 			config = self.agents_config['current_season_performance_agent'],
 			verbose = True,
 			llm = llm,
-			tools = [RetrievalTool(config_path=self.base_config)],
+			# tools = [RetrievalTool(config_path=self.base_config)],
+			tools = [JSONSearch(config_path=self.base_config), CSVSearch(config_path=self.base_config), WebSearch(config_path=self.base_config)],
 		)
 		print("Current Season Performance Analysis Done")
 		return current_season_performance	
@@ -112,7 +121,8 @@ class NflPredicitonAssistant():
 			config = self.agents_config['coaching_strategy_analysis_agent'],
 			verbose = True,
 			llm = llm,
-			tools = [RetrievalTool(config_path=self.base_config)],
+			# tools = [RetrievalTool(config_path=self.base_config)],
+			tools = [JSONSearch(config_path=self.base_config), CSVSearch(config_path=self.base_config), WebSearch(config_path=self.base_config)],
 		)
 		print("Coaching Stategy Analysis Done")
 		return coaching_strategy_analysis
@@ -124,7 +134,8 @@ class NflPredicitonAssistant():
 			config = self.agents_config['environmental_impact_analysis_agent'],
 			verbose = True,
 			llm = llm,
-			tools = [RetrievalTool(config_path=self.base_config)],
+			# tools = [RetrievalTool(config_path=self.base_config)],
+			tools = [JSONSearch(config_path=self.base_config), CSVSearch(config_path=self.base_config), WebSearch(config_path=self.base_config)],
 		)
 		print("Impact of environment Analysis Done")
 		return environmental_impact_analysis
@@ -137,7 +148,7 @@ class NflPredicitonAssistant():
 			verbose = True,
 			llm = llm,
 		)
-		print("Preformance Summary Done")
+		print("Performance Summary Done")
 		return performance_summary
 
 	@agent
@@ -152,12 +163,12 @@ class NflPredicitonAssistant():
 		return consensus_agent
 	
 
-	manager = Agent(
-		role="Project Manager",
-		goal="Efficiently manage the crew and ensure high-quality task completion",
-		backstory="You're an experienced project manager, skilled in overseeing complex projects and guiding teams to success. Your role is to coordinate the efforts of the crew members, ensuring that each task is completed on time and to the highest standard.",
-		allow_delegation=True,
-		)
+	# manager = Agent(
+	# 	role="Project Manager",
+	# 	goal="Efficiently manage the crew and ensure high-quality task completion",
+	# 	backstory="You're an experienced project manager, skilled in overseeing complex projects and guiding teams to success. Your role is to coordinate the efforts of the crew members, ensuring that each task is completed on time and to the highest standard.",
+	# 	allow_delegation=True,
+	# 	)
 	
 
 	#sequence of tasks
@@ -259,10 +270,11 @@ class NflPredicitonAssistant():
 		crew_workflow = Crew(
 			agents=self.agents, # Automatically created by the @agent decorator
 			tasks=self.tasks, # Automatically created by the @task decorator
-			process=Process.hierarchical,
+			# process=Process.hierarchical,
+			process=Process.sequential,
 			verbose=True,
 			memory=True,
-			manager_agent=self.manager,
+			# manager_agent=self.manager,
 			embedder={
 				"provider": "ollama",
 				"config": {"model": "mxbai-embed-large"}
