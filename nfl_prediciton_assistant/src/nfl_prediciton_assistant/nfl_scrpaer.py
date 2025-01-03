@@ -13,7 +13,16 @@ os.makedirs(SCRAPED_TEXT_DIR, exist_ok=True)
 WEBSITES = [
     "https://www.nfl.com/scores",
     "https://www.espn.com/nfl/scoreboard",
-    "https://www.cbssports.com/nfl/scores/"
+    "https://www.cbssports.com/nfl/scores/",
+    "https://www.nfl.com/international/",
+    "https://www.espn.com/nfl/",
+    "https://www.nfl.com/news/",
+    "https://www.cbssports.com/nfl/injuries/",       
+    "https://www.cbssports.com/nfl/stats/",
+    "https://www.pro-football-reference.com/",
+    "https://apnews.com/hub/nfl",
+    "https://bleacherreport.com/nfl",
+    "https://www.bbc.com/sport/american-football",
 ]
 
 def scrape_website(url):

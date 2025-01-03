@@ -1,0 +1,1 @@
+I do not have access to real-time information, including sports scores or game results. To find information about recent Jaguars and Panthers games, I recommend checking a reliable sports website or news source.
